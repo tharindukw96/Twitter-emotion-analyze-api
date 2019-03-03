@@ -38,9 +38,12 @@ def analyze(keyword):
     public_tweets += api.search(keyword,lang='en',count='200')
     tweets = []
     times = []
+
+    tweet_meta = []
     for tweet in public_tweets:
         trim = str(tweet.created_at)
         t  = calendar.timegm(time.strptime(trim,"%Y-%m-%d  %H:%M:%S"))
+        tweet_meta.append([tweet.created_at,tweet.text])
         tweets.append(remove_punct(tweet.text))
         times.append(t)
     #Time dataframe
@@ -81,7 +84,7 @@ def analyze(keyword):
     #print(predictions, '\n')
     #print(times)
 
-    return jsonify({"joy":joy.to_json(orient='values'),"anger":anger.to_json(orient='values'),"fear":fear.to_json(orient='values'),"sadness":sadness.to_json(orient='values'),"surprise":surprise.to_json(orient='values'),"disgust":disgust.to_json(orient='values')})
+    return jsonify({"meta":tweet_meta,"joy":joy.to_json(orient='values'),"anger":anger.to_json(orient='values'),"fear":fear.to_json(orient='values'),"sadness":sadness.to_json(orient='values'),"surprise":surprise.to_json(orient='values'),"disgust":disgust.to_json(orient='values')})
 
 def remove_punct(text):
     punctuations ="!\"#$%&\'()*+,-./:;<=>?@[\\]^_`{|}~'"
