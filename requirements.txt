@@ -4,3 +4,5 @@ keras==1.1.0
 
 theano==0.8.2
 
+gunicorn==0.14.2
+
